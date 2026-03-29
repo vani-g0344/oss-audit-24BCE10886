@@ -215,27 +215,4 @@ sudo ./script4_log_analyzer.sh /var/log/syslog error
 
 ---
 
-## Troubleshooting
-
-**Permission denied when running scripts:**
-```bash
-chmod +x script_name.sh
-```
-
-**Log file not found (Script 4):**
-Check available log files with:
-```bash
-ls /var/log/
-```
-
-**`rpm` command not found (Script 2 on Ubuntu):**
-The script automatically falls back to `dpkg` on Debian/Ubuntu systems. No action needed.
-
-**Script 5 manifesto file not saved:**
-Ensure you have write permission in the current directory:
-```bash
-ls -la .
-```
----
-
 *Open Source Software — Capstone Project | VITyarthi*
