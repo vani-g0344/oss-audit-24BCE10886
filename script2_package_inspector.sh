@@ -1,17 +1,43 @@
+#!/bin/bash
+# =============================================================================
+# Script 2: FOSS Package Inspector
+# Author  : Vani Gupta | 24BCE10886
+# Purpose : Detects the system's package manager, checks whether 'git' is
+#           installed, displays its metadata, and prints an open-source
+#           philosophy note about the package.
+# Concepts: Functions, command -v for tool detection, if/elif/case statements,
+#           process substitution, awk, and exit codes.
+# Bug Fix : print_divider() was called but never defined — added definition.
+# =============================================================================
+
+# --- The package we want to inspect (easily changeable) ---
 PACKAGE="git"
 
+# --- Function: print_divider ---
+# Prints a horizontal rule for visual separation in the output.
+# Defining it as a function avoids repeating the same echo command.
+print_divider() {
+    echo "  ----------------------------------------------------------------"
+}
 
+# --- Header ---
+echo "================================================================"
 echo "           FOSS PACKAGE INSPECTOR — OSS AUDIT TOOL              "
+echo "================================================================"
 echo ""
 
-
+# --- Package manager detection ---
+# 'command -v' checks if a command exists in PATH without running it.
+# It returns exit code 0 (true) if found, non-zero (false) if not.
+# &>/dev/null suppresses both stdout and stderr so nothing is printed.
 if command -v rpm &>/dev/null; then
-    PKG_MANAGER="rpm"
+    PKG_MANAGER="rpm"          # RPM-based: Fedora, RHEL, CentOS, openSUSE
 elif command -v dpkg &>/dev/null; then
-    PKG_MANAGER="dpkg"
+    PKG_MANAGER="dpkg"         # DEB-based: Ubuntu, Debian, Linux Mint
 else
+    # If neither tool is found, set unknown and warn the user
     PKG_MANAGER="unknown"
-    echo "Warning: Could not detect package manager (rpm or dpkg)."
+    echo "  Warning: Could not detect package manager (rpm or dpkg)."
 fi
 
 echo "  Package Manager Detected : $PKG_MANAGER"
@@ -19,28 +45,39 @@ echo "  Package Being Inspected  : $PACKAGE"
 echo ""
 print_divider
 
+# --- Installation check and metadata display ---
+# The logic branches based on which package manager was detected.
+
 if [ "$PKG_MANAGER" = "rpm" ] && rpm -q "$PACKAGE" &>/dev/null; then
+    # rpm -q exits 0 if the package is installed
     echo "  STATUS: $PACKAGE is INSTALLED on this system."
     echo ""
     echo "  Package Details:"
     print_divider
+    # rpm -qi prints full package info; grep filters to key fields only
     rpm -qi "$PACKAGE" | grep -E "^Version|^License|^Summary|^URL"
 
 elif [ "$PKG_MANAGER" = "dpkg" ] && dpkg -l "$PACKAGE" 2>/dev/null | grep -q "^ii"; then
+    # dpkg -l lists packages; "^ii" means installed and correctly configured
     echo "  STATUS: $PACKAGE is INSTALLED on this system."
     echo ""
     echo "  Package Details:"
     print_divider
-    dpkg -l "$PACKAGE" | awk 'NR>4 {print "  Version : "$3}'
-    dpkg-query -W -f='  Architecture : ${Architecture}\n  Description  : ${binary:Summary}\n' "$PACKAGE" 2>/dev/null
+    # awk skips the header rows (NR>5) and prints the version field ($3)
+    # NR>5 skips the 5 header/separator lines dpkg -l always outputs
+    dpkg -l "$PACKAGE" | awk 'NR>5 && $3!="" {print "  Version      : "$3}'
+    # dpkg-query retrieves formatted metadata fields for the package
+    dpkg-query -W -f='  Architecture : ${Architecture}\n  Description  : ${binary:Summary}\n' \
+        "$PACKAGE" 2>/dev/null
 
 else
+    # Package is not installed — provide installation instructions
     echo "  STATUS: $PACKAGE is NOT installed on this system."
     echo ""
     echo "  To install Git, run one of the following commands:"
-    echo "    Fedora/RHEL : sudo dnf install git"
-    echo "    Ubuntu/Debian: sudo apt install git"
-    echo "    Arch Linux  : sudo pacman -S git"
+    echo "    Fedora/RHEL   : sudo dnf install git"
+    echo "    Ubuntu/Debian : sudo apt install git"
+    echo "    Arch Linux    : sudo pacman -S git"
 fi
 
 echo ""
@@ -49,7 +86,9 @@ echo "  OPEN SOURCE PHILOSOPHY — PACKAGE NOTES"
 print_divider
 echo ""
 
-
+# --- case statement: print a philosophy note based on the package name ---
+# The case statement matches the value of $PACKAGE against patterns.
+# Each pattern ends with ')' and each block ends with ';;'.
 case "$PACKAGE" in
     git)
         echo "  Git: Born from frustration with proprietary version control."
@@ -84,6 +123,7 @@ case "$PACKAGE" in
         echo "  free to use, teach, modify, and redistribute without restriction."
         ;;
     *)
+        # Wildcard/default pattern — matches any package not listed above
         echo "  $PACKAGE: A free and open source tool distributed to the"
         echo "  community. Check its LICENSE file to understand your freedoms."
         ;;
@@ -91,3 +131,4 @@ esac
 
 echo ""
 echo "  Inspection complete. Knowledge is open source too."
+echo "================================================================"
