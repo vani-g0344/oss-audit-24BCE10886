@@ -2,11 +2,6 @@
 # =============================================================================
 # Script 3: Disk and Permission Auditor
 # Author  : Vani Gupta | 24BCE10886
-# Purpose : Audits key system directories for permissions, ownership, and size.
-#           Also specifically inspects Git's binary, system config, and shared
-#           directory to understand how an OSS tool is installed on Linux.
-# Concepts: Arrays, for loops, ls/du/awk for file metadata, string slicing
-#           for permission analysis, and conditional directory/file checks.
 # =============================================================================
 
 # --- Array of important system directories to audit ---
