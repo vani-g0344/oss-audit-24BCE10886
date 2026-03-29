@@ -2,11 +2,6 @@
 # =============================================================================
 # Script 5: Open Source Manifesto Generator
 # Author  : Vani Gupta | 24BCE10886
-# Purpose : Interactively prompts the user for three inputs and generates a
-#           personalised open-source philosophy statement, saved as a .txt file.
-# Concepts: read (interactive input), input validation with -z, command
-#           substitution for dynamic values (date, whoami), here-doc-style
-#           file writing with >>, and variable interpolation inside strings.
 # =============================================================================
 
 echo "================================================================"
