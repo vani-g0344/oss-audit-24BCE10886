@@ -2,10 +2,6 @@
 # =============================================================================
 # Script 1: System Identity Reporter
 # Author  : Vani Gupta | 24BCE10886
-# Purpose : Displays system hardware/OS information along with open-source
-#           license details for the chosen software (Git).
-# Concepts: Variables, command substitution, conditional statements (if/elif),
-#           string matching with grep -qi, and formatted output with echo.
 # =============================================================================
 
 # --- Static student and software metadata ---
