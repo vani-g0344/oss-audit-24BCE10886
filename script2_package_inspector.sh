@@ -2,12 +2,6 @@
 # =============================================================================
 # Script 2: FOSS Package Inspector
 # Author  : Vani Gupta | 24BCE10886
-# Purpose : Detects the system's package manager, checks whether 'git' is
-#           installed, displays its metadata, and prints an open-source
-#           philosophy note about the package.
-# Concepts: Functions, command -v for tool detection, if/elif/case statements,
-#           process substitution, awk, and exit codes.
-# Bug Fix : print_divider() was called but never defined — added definition.
 # =============================================================================
 
 # --- The package we want to inspect (easily changeable) ---
