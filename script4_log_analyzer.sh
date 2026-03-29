@@ -2,13 +2,9 @@
 # =============================================================================
 # Script 4: Log File Analyzer
 # Author  : Vani Gupta | 24BCE10886
-# Purpose : Accepts a log file path and optional keyword as arguments,
-#           counts matching lines, classifies severity, and displays the
-#           last 5 matching lines for quick triage.
 # Usage   : ./script4_log_analyzer.sh <logfile> [keyword]
 # Example : ./script4_log_analyzer.sh /var/log/syslog error
-# Concepts: Positional parameters ($1, $2), default values, while read loop,
-#           retry logic, wc/grep/tail, arithmetic, and exit codes.
+
 # =============================================================================
 
 # --- Positional parameters ---
