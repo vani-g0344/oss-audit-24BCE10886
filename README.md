@@ -236,13 +236,6 @@ Ensure you have write permission in the current directory:
 ```bash
 ls -la .
 ```
-
----
-
-## Academic Integrity Statement
-
-All shell scripts in this repository are original work written by Vani Gupta (24BCE10886). The project report is original writing. No AI tools were used to generate the written content of the report.
-
 ---
 
 *Open Source Software — Capstone Project | VITyarthi*
